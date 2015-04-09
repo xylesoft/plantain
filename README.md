@@ -11,6 +11,8 @@ To provide an API which allows the creation of a connection between a UI and man
  - CO2Sensor
  - PHSensor
  - LumenSensor
+ - ECSensor
+ - TDSSensor
 - TriggerInterface
  - MotorTrigger
  - ServoTrigger
