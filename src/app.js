@@ -5,11 +5,15 @@ const SERIAL_PORT = "/dev/cu.usbmodem1421";
 
 // Classes
 var serialport = require("serialport");
-var DHT11Temperature = require("./Domain/Port/DHT11Temperature");
-var DHT11Humidty = require("./Domain/Port/DHT11Humidty");
 var SerialPort = serialport.SerialPort;
 var MySQL = require('mysql');
 var EventRepository = require('./Repositories/EventRepository');
+
+// Sensors / Ports
+var DHT11Temperature = require("./Domain/Port/DHT11Temperature");
+var DHT11Humidty = require("./Domain/Port/DHT11Humidty");
+var YL69SoilMoisture = require("./Domain/Port/YL69SoilMoisture");
+var BH1750LightIntensity = require("./Domain/Port/BH1750LightIntensity");
 
 // Serial port setup
 var Arduino = new SerialPort(SERIAL_PORT, {
@@ -32,11 +36,15 @@ var events = new EventRepository(database);
 // Sensors
 var temperature = new DHT11Temperature(events);
 var humidty = new DHT11Humidty(events);
+var soil = new YL69SoilMoisture(events);
+var lux = new BH1750LightIntensity(events);
 
 // Array of avilable sensors
 var monitors = [
 	temperature,
-	humidty
+	humidty,
+	soil,
+	lux
 ];
 
 Arduino.open(function (error) {
@@ -51,8 +59,9 @@ Arduino.open(function (error) {
 
     Arduino.on('data', function(data) {
 
+    	let timestamp = (new Date).getTime() / 1000;
     	for (var i = monitors.length - 1; i >= 0; i--) {
-    		monitors[i].digest(data);
+    		monitors[i].digest(data, timestamp);
     	};
     });
   }

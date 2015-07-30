@@ -7,11 +7,11 @@ export default class Sensor {
 		this.dataKey = dataKey;
 	}
 
-	digest(data) {
+	digest(data, timestamp) {
 
 		if (data.substring(0, this.dataKey.length) === this.dataKey) {
-			let value = parseInt((data.substring((this.dataKey + ':').length)), 10);
-			this.record(value);
+			let value = data.substring((this.dataKey + ':').length);
+			this.record(value, timestamp);
 		}
 	}
 }

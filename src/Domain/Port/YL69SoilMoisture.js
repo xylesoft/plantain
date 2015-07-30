@@ -2,13 +2,13 @@
 
 var Sensor = require('./Sensor');
 
-export default class DHT11Humidty extends Sensor {
+export default class YL69SoilMoisture extends Sensor {
 
 	constructor(repository) {
 
-		super('air_humidity');
+		super('soil_humidity');
 
-		if (!repository) throw new Error('No repository provided to DHT11Humidty');
+		if (!repository) throw new Error('No repository provided to ' + this.dataKey);
 		this.repository = repository;
 	}
 

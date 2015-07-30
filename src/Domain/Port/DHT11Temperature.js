@@ -12,12 +12,12 @@ export default class DHT11Temperature extends Sensor {
 		this.repository = repository;
 	}
 
-	record(value) {
+	record(value, timestamp) {
 
 		let command = {
-			created_at: (new Date).getTime(),
+			created_at: timestamp,
 			name: this.dataKey,
-			value: value,
+			value: parseInt(value, 10),
 			unit: 'celcius'
 		};
 
